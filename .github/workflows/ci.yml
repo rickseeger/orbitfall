@@ -28,5 +28,5 @@ jobs:
       - name: Install dependencies (pygame-ce + pytest)
         run: uv sync --dev
 
-      - name: Run test suite
-        run: uv run pytest
+      - name: Run test suite (with >=90% coverage on the pure-logic core)
+        run: uv run pytest --cov=game.physics --cov=game.waves --cov=game.state --cov-fail-under=90 --cov-report=term-missing

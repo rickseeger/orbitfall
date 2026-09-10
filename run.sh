@@ -1,6 +1,12 @@
 #!/usr/bin/env sh
 # No-install launcher for ORBITFALL.
-# Requires pygame-ce to be importable in the active Python (see README).
+# Prefers a local .venv (from `uv sync` or `python -m venv .venv`); otherwise
+# falls back to the active python3. pygame-ce must be importable in whichever
+# interpreter is used (see README).
 set -eu
 cd "$(dirname "$0")"
-exec python3 -m game.main "$@"
+PYTHON=python3
+if [ -x .venv/bin/python ]; then
+    PYTHON=.venv/bin/python
+fi
+exec "$PYTHON" -m game.main "$@"

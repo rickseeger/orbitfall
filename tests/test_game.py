@@ -59,3 +59,12 @@ def test_pygame_initializes_headlessly():
         surf.blit(glow, (0, 0), special_flags=pygame.BLEND_ADD)
     finally:
         pygame.quit()
+
+
+def test_main_runs_headlessly_and_exits(tmp_path, monkeypatch):
+    """The real entry point runs a fixed number of frames headless and exits 0."""
+    from game import main as mainmod
+
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    rc = mainmod.main(["--headless", "--frames", "90", "--start", "--seed", "1"])
+    assert rc == 0

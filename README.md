@@ -84,7 +84,14 @@ headless manually:
 SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy pytest
 ```
 
-CI runs the same `pytest` suite on every push to `main`
+Coverage is enforced at >=90% line coverage on the pure-logic core
+(`physics`, `waves`, `state`) in CI:
+
+```sh
+pytest --cov=game.physics --cov=game.waves --cov=game.state --cov-fail-under=90
+```
+
+CI runs the same suite on every push to `main`
 ([.github/workflows/ci.yml](.github/workflows/ci.yml)).
 
 ## Project layout
@@ -104,5 +111,6 @@ game/            the ORBITFALL package
 tests/           pytest suite (headless)
 ```
 
-> Status: this is the project skeleton (G0 node 2). The runnable entry point
-> opens a window and exits cleanly; gameplay lands in the next milestone.
+> Status: complete and playable (G0 node 3). Full gameplay loop, visuals,
+> audio, difficulty escalation, and an automated test suite are implemented.
+> The launch command `orbitfall` (or `./run.sh`) opens the game directly.
