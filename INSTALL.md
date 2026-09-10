@@ -24,6 +24,10 @@ before the star's surface catches you.
   sudo apt install python3 python3-venv
   ```
 
+  `sudo apt install` prompts **Y/n** for confirmation before it installs.
+  For an unattended or scripted setup, add `-y`:
+  `sudo apt install -y python3 python3-venv`.
+
   Without `python3-venv`, creating a virtual environment fails with
   "ensurepip is not available".
 - Git to fetch the code (or download the repository ZIP from GitHub).
