@@ -5,7 +5,8 @@ of a solar-harvesting rig around a star collapsing into a gravity well: collect
 energy cells, dodge asteroids, and fly through the jump gate before the star's
 surface catches you.
 
-- Design & spec: [DESIGN.md](DESIGN.md)
+- Design and spec: [DESIGN.md](DESIGN.md)
+- Installation and play guide: [INSTALL.md](INSTALL.md)
 - Stack verification: [STACK_VERIFICATION.md](STACK_VERIFICATION.md)
 
 ## Requirements
@@ -18,12 +19,17 @@ No other runtime dependencies. Audio is synthesized in pure Python (stdlib
 `array`/`math`); all graphics are procedural — there are no image or audio
 assets.
 
+On Debian/Ubuntu, creating a virtual environment needs the `python3-venv`
+package (`sudo apt install python3 python3-venv`); see
+[INSTALL.md](INSTALL.md) for the full prerequisites.
+
 ## Install
 
-Create a virtual environment, then install the package:
+See [INSTALL.md](INSTALL.md) for the complete step-by-step guide. The short
+version:
 
 ```sh
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install .
 ```
@@ -42,7 +48,7 @@ uv sync
 orbitfall
 ```
 
-Controls (see DESIGN.md section 6):
+Full gameplay and controls are in [INSTALL.md](INSTALL.md). Quick reference:
 
 | Action          | Keys                          |
 |-----------------|-------------------------------|
@@ -111,6 +117,7 @@ game/            the ORBITFALL package
 tests/           pytest suite (headless)
 ```
 
-> Status: complete and playable (G0 node 3). Full gameplay loop, visuals,
-> audio, difficulty escalation, and an automated test suite are implemented.
-> The launch command `orbitfall` (or `./run.sh`) opens the game directly.
+> Status: complete and playable. Full gameplay loop, visuals, audio, difficulty
+> escalation, and an automated test suite are implemented (77 tests, 100%
+> coverage on the pure-logic core). The launch command `orbitfall` (or
+> `./run.sh`) opens the game directly.
