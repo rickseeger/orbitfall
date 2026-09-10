@@ -14,6 +14,7 @@ Public API:
     step(body, dt) -> None                          # body has .pos/.vel/.accel
     collide_circle(a, b) -> bool                    # a, b have .pos/.radius
     circles_overlap(apos, aradius, bpos, bradius) -> bool
+    contain_on_screen(pos, vel, width, height, margin) -> (pos, vel)
 """
 
 from __future__ import annotations
@@ -33,6 +34,7 @@ __all__ = [
     "step",
     "collide_circle",
     "circles_overlap",
+    "contain_on_screen",
 ]
 
 
@@ -115,3 +117,47 @@ def circles_overlap(
 def collide_circle(a, b) -> bool:
     """True when two circle bodies overlap. Each needs `.pos` and `.radius`."""
     return circles_overlap(a.pos, a.radius, b.pos, b.radius)
+
+
+def contain_on_screen(
+    pos: Vec2,
+    vel: Vec2,
+    width: float = config.WINDOW_WIDTH,
+    height: float = config.WINDOW_HEIGHT,
+    margin: float = config.BOUNDARY_MARGIN,
+) -> tuple[Vec2, Vec2]:
+    """Clamp a body to the playfield and kill any outward velocity.
+
+    Keeps `pos` inside [margin, width - margin] x [margin, height - margin].
+    When a coordinate is clamped to an edge, the matching velocity component
+    is zeroed if it still points out of bounds, so neither gravity, thrust,
+    nor impulse can eject the ship off-screen. Returns (new_pos, new_vel);
+    the input vectors are not mutated.
+    """
+    min_x = margin
+    max_x = width - margin
+    min_y = margin
+    max_y = height - margin
+
+    x, y = pos.x, pos.y
+    vx, vy = vel.x, vel.y
+
+    if x < min_x:
+        x = min_x
+        if vx < 0.0:
+            vx = 0.0
+    elif x > max_x:
+        x = max_x
+        if vx > 0.0:
+            vx = 0.0
+
+    if y < min_y:
+        y = min_y
+        if vy < 0.0:
+            vy = 0.0
+    elif y > max_y:
+        y = max_y
+        if vy > 0.0:
+            vy = 0.0
+
+    return Vec2(x, y), Vec2(vx, vy)

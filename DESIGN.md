@@ -103,6 +103,9 @@ high score persists to disk.
 - Integrator: symplectic (semi-implicit) Euler at a fixed 1/120 s timestep with a
   render accumulator. The simulation is deterministic given a fixed RNG seed and
   input, which makes it testable and replayable.
+- Containment: the drone is clamped to the playfield at a fixed inset
+  (`BOUNDARY_MARGIN`) from each window edge, with any outward velocity zeroed,
+  so neither gravity, thrust, nor impulse can strand the ship off-screen.
 
 ### 5.2 Energy cells
 - Static collectibles; circle collision with the drone.

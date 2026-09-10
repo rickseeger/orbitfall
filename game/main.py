@@ -216,6 +216,11 @@ class Game:
         self.drone.alive = True
         self.drone.invuln = config.INVULN_TIME
         self.trail.clear()
+        # The outer shell radius can exceed the window's vertical half-extent,
+        # so clamp the spawn point on-screen too.
+        self.drone.pos, self.drone.vel = physics.contain_on_screen(
+            self.drone.pos, self.drone.vel
+        )
 
     def _respawn(self) -> None:
         self._place_drone()
@@ -301,6 +306,7 @@ class Game:
         if d.thrusting:
             accel = accel + physics.heading_vec(d.heading) * config.THRUST_ACCEL
         d.pos, d.vel = physics.integrate(d.pos, d.vel, accel, dt)
+        d.pos, d.vel = physics.contain_on_screen(d.pos, d.vel)
 
     def _update_asteroids(self, dt: float) -> None:
         for a in self.asteroids:

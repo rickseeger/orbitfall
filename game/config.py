@@ -74,6 +74,12 @@ ASTEROID_RADIUS_MAX = 18.0
 DRONE_RADIUS = 8.0
 GATE_RADIUS = 20.0
 
+# ---- Screen boundary / containment ----------------------------------------
+# The ship is clamped to the playfield at this inset from each window edge so
+# neither gravity, thrust, nor impulse can eject it off-screen. Matches
+# WINDOW_WIDTH / WINDOW_HEIGHT and keeps the ship + engine glow fully visible.
+BOUNDARY_MARGIN = 24.0
+
 # ---- Waves / difficulty (DESIGN.md section 7) -----------------------------
 WAVE_TIME_BASE = 45.0
 WAVE_TIME_STEP = 1.5         # seconds subtracted per wave
