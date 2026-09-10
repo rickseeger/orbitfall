@@ -1,8 +1,8 @@
 """Logical-action -> key mapping, with optional rebinding (DESIGN.md sec 6).
 
 The input layer maps logical actions (rotate_left, thrust, impulse, ...) to
-keys so remapping is data-only. Bindings are persisted to the XDG data dir as
-JSON (canonical key names) and can be overridden without touching game code.
+keys so remapping is data-only. Bindings are persisted to the platform data
+dir as JSON (canonical key names) and can be overridden without touching game code.
 
 Key names are canonical lower-case pygame constants: 'left', 'a', 'space',
 'lshift', 'rctrl', 'kp_enter', ... (K_LEFT -> 'left', K_a -> 'a').

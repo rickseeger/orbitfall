@@ -137,7 +137,7 @@ high score persists to disk.
 - 3 lives. On death: screen shake, particle explosion, brief invulnerability,
   respawn on a safe tangent with velocity matched to a local circular orbit.
 - Score = cell value × combo + wave-clear bonus + graze bonuses. High score
-  persisted to disk (XDG data dir), shown on title and game-over screens.
+  persisted to disk (platform data dir), shown on title and game-over screens.
 
 ## 6. Controls
 
@@ -204,7 +204,7 @@ STACK_VERIFICATION.md.
   → deterministic spawn data).
 - game/state.py — game state machine (title/playing/paused/gameover) +
   score/combo/lives (pure logic).
-- game/persistence.py — high-score save/load (JSON in XDG data dir).
+- game/persistence.py — high-score save/load (JSON in platform data dir).
 - game/input.py — logical-action → key mapping + rebinding.
 - game/audio.py — procedural SFX synthesis.
 - game/render.py — pygame drawing: star, drone, cells, asteroids, gate, trails,

@@ -1,7 +1,7 @@
 # ORBITFALL — Installation and Playing Guide
 
 Everything you need to install and play ORBITFALL on an ordinary Linux laptop,
-from a clean start. These steps were run and verified against this repository on
+from a clean start. On Windows, see [WINDOWS.md](WINDOWS.md) instead. These steps were run and verified against this repository on
 2026-09-10 (Ubuntu 26.04, Python 3.14.4).
 
 ORBITFALL is a single-screen neon-vector score-attack arcade game. You pilot the
@@ -122,8 +122,10 @@ starts another run.
 
 Scoring: 100 points per cell × your current combo (combo caps at ×8), plus a
 wave-clear bonus that scales with wave number and time remaining, and a small
-bonus for grazing close past an asteroid. The high score is saved to
-`~/.local/share/orbitfall/highscore.json` (it honours `$XDG_DATA_HOME`).
+bonus for grazing close past an asteroid. The high score is saved to a
+per-user, platform data directory — `~/.local/share/orbitfall/highscore.json`
+on Linux (honouring `$XDG_DATA_HOME`), `~/Library/Application Support/orbitfall/`
+on macOS, and `%LOCALAPPDATA%\orbitfall\` on Windows.
 
 ## 5. Verify it works
 

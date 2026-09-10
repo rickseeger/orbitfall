@@ -1,7 +1,15 @@
-"""High-score save/load: JSON in the XDG data directory (DESIGN.md sec 5.7).
+"""High-score save/load: JSON in a per-user, platform data directory.
 
 Round-trip save/load plus corrupt-file handling are unit-tested. The data dir
-honours $XDG_DATA_HOME (default ~/.local/share) per the XDG Base Directory spec.
+is resolved per platform so the game runs the same way on Linux, macOS, and
+Windows (no Linux-only assumptions):
+
+- Linux/other POSIX: $XDG_DATA_HOME (default ~/.local/share)
+- macOS: ~/Library/Application Support
+- Windows: %LOCALAPPDATA% (fallback %APPDATA%, then ~\\AppData\\Local)
+
+The resolver is stdlib-only (no platformdirs dependency); it keys off
+sys.platform and reads the conventional per-user environment variables.
 
 Public API:
     data_dir() -> Path
@@ -14,6 +22,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 
 __all__ = ["data_dir", "high_score_path", "load_high_score", "save_high_score"]
@@ -22,12 +31,30 @@ _APP_DIR = "orbitfall"
 _SCORE_FILE = "highscore.json"
 
 
-def data_dir() -> Path:
-    """XDG data directory for ORBITFALL (created on demand by writers)."""
-    base = os.environ.get("XDG_DATA_HOME") or os.path.join(
+def _data_home() -> str:
+    """Resolve the per-user data home directory for the current platform."""
+    if sys.platform == "win32":
+        # Save data is machine-local rather than roamed: prefer LOCALAPPDATA,
+        # then the roaming APPDATA, then the conventional default under the
+        # user profile.
+        return (
+            os.environ.get("LOCALAPPDATA")
+            or os.environ.get("APPDATA")
+            or os.path.join(os.path.expanduser("~"), "AppData", "Local")
+        )
+    if sys.platform == "darwin":
+        return os.path.join(
+            os.path.expanduser("~"), "Library", "Application Support"
+        )
+    # Linux and other POSIX systems follow the XDG Base Directory spec.
+    return os.environ.get("XDG_DATA_HOME") or os.path.join(
         os.path.expanduser("~"), ".local", "share"
     )
-    return Path(base) / _APP_DIR
+
+
+def data_dir() -> Path:
+    """Per-user data directory for ORBITFALL (created on demand by writers)."""
+    return Path(_data_home()) / _APP_DIR
 
 
 def high_score_path(path: Path | None = None) -> Path:

@@ -6,7 +6,8 @@ energy cells, dodge asteroids, and fly through the jump gate before the star's
 surface catches you.
 
 - Design and spec: [DESIGN.md](DESIGN.md)
-- Installation and play guide: [INSTALL.md](INSTALL.md)
+- Installation and play guide: [INSTALL.md](INSTALL.md) (Linux) ·
+  [WINDOWS.md](WINDOWS.md) (Windows)
 - Stack verification: [STACK_VERIFICATION.md](STACK_VERIFICATION.md)
 
 ## Requirements
@@ -109,7 +110,7 @@ game/            the ORBITFALL package
   physics.py     pure-math integrator, gravity, collisions (no pygame)
   waves.py       deterministic wave/difficulty generators
   state.py       game state machine + score/combo/lives
-  persistence.py high-score save/load (XDG data dir)
+  persistence.py high-score save/load (platform data dir)
   input.py       logical-action -> key mapping
   audio.py       procedural SFX synthesis
   render.py      pygame drawing + additive glow
