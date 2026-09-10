@@ -114,3 +114,24 @@ def test_cell_collection_scores_and_refills_impulse():
     g._step(config.FIXED_DT, _no_input())
     assert cell.collected is True
     assert g.stats.score > score_before
+
+
+def test_renderer_draws_every_phase_without_crash():
+    """Each screen (title/playing/pause/game-over) renders headlessly."""
+    g = _make_game(start=False)      # TITLE backdrop
+    g.renderer.draw(g, 1.0 / 60.0)
+
+    g._start_run()                    # PLAYING
+    g.renderer.draw(g, 1.0 / 60.0)
+
+    g._toggle_pause()                 # PAUSED
+    assert g.phase == state.GamePhase.PAUSED
+    g.renderer.draw(g, 1.0 / 60.0)
+
+    g._resume()
+    for _ in range(3):                # force game over
+        g.drone.invuln = 0.0
+        g.drone.pos = g.star.pos.copy()
+        g._step(config.FIXED_DT, _no_input())
+    assert g.phase == state.GamePhase.GAMEOVER
+    g.renderer.draw(g, 1.0 / 60.0)
